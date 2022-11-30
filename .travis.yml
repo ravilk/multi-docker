@@ -1,0 +1,17 @@
+language: generic                                               # Add this line to avoid errors like - “rakefile not found” 
+
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t ravilkhalilov/react-test -f ./client/Dockerfile.dev  ./client
+
+script: 
+  - docker run -e CI=true ravilkhalilov/react-test npm test     # https://facebook.github.io/create-react-app/docs/running-tests#linux-macos-bash
+
+after_success: 
+  - docker build -t ravilkhalilov/multi-client ./client         # It will use by default Dockerfile to create image. Docker by default is looking for Dockerfile, not Dockerfile.dev
+  - docker build -t ravilkhalilov/multi-nginx ./nginx           # It will use by default Dockerfile to create image. Docker by default is looking for Dockerfile, not Dockerfile.dev 
+  - docker build -t ravilkhalilov/multi-server ./server         # It will use by default Dockerfile to create image. Docker by default is looking for Dockerfile, not Dockerfile.dev 
+  - docker build -t ravilkhalilov/multi-worker ./worker         # It will use by default Dockerfile to create image. Docker by default is looking for Dockerfile, not Dockerfile.dev
