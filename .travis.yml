@@ -27,13 +27,13 @@ after_success:
   - docker push ravilkhalilov/multi-worker
 
 deploy:
-  provider: elasticbeanstalk
-  region: 'us-east-1'
-  app: 'multi-docker'
-  env: 'MultiDocker-env'
-  bucket_name: 'elasticbeanstalk-us-east-1-289483554334'
-  bucket_path: 'multi-docker'
+  provider: elasticbeanstalk                              # Platform where our App will be deployed
+  region: 'us-east-1'                                     # Set target region where our Platform located
+  app: 'multi-docker'                                     # AWS BeansTalk App name
+  env: 'MultiDocker-env'                                  # AWS BeansTalk App Enironment name
+  bucket_name: 'elasticbeanstalk-us-east-1-289483554334'  # Bucket must be in the same Region as AWS BeansTalk
+  bucket_path: 'multi-docker'                             # Set folder name inside of S3 bucket, that will keep App files. You can set any name as you wish
   on:
-    branch: main
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: $AWS_SECRET_KEY
+    branch: main                                          # Instruct AWS BeansTalk to only deploy updates, only when changes commited in the main branch of git repo
+  access_key_id: $AWS_ACCESS_KEY                          # This env variable and it's value has been set in the repository of the TravisCI. Copy env name from TravisCI to avoid misspeling error
+  secret_access_key: $AWS_SECRET_KEY                      # This env variable and it's value has been set in the repository of the TravisCI. Copy env name from TravisCI to avoid misspeling error
